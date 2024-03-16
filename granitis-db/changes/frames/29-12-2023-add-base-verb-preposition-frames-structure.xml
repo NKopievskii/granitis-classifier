@@ -16,28 +16,28 @@
             <column name="id_frame" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_verb_preposition_frame"/>
             </column>
-            <column name="id_meaning_situation" type="bigint">
+            <column name="id_situation_meaning" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="id_trait_verb_form" type="bigint">
+            <column name="id_verb_form_trait" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="id_trait_verb_reflect" type="bigint">
+            <column name="id_verb_reflect_trait" type="bigint">
+            </column>
+            <column name="verb_voice_trait" type="bigint">
+            </column>
+            <column name="id_preposition_term" type="bigint">
+            </column>
+            <column name="id_noun_case_trait" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="id_trait_verb_voice" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="id_term_preposition" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="id_trait_case" type="bigint">
+            <column name="id_sort" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="id_meaning_frame" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="Comment" type="nvarchar(256)">
+            <column name="comment" type="nvarchar(256)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -46,13 +46,13 @@
     <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-trait-verb-form-in-verb-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_trait_verb_form_in_verb_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_verb_form_trait_in_verb_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_trait_verb_form_in_verb_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_verb_form_trait_in_verb_preposition_frames"
                                  baseTableName="verb_preposition_frames"
-                                 baseColumnNames="id_trait_verb_form"
+                                 baseColumnNames="id_verb_form_trait"
                                  referencedTableName="morphological_traits"
                                  referencedColumnNames="id_trait"
         />
@@ -61,28 +61,28 @@
     <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-trait-verb-reflect-in-verb-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_trait_verb_reflect_in_verb_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_verb_reflect_trait_in_verb_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_trait_verb_reflect_in_verb_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_verb_reflect_trait_in_verb_preposition_frames"
                                  baseTableName="verb_preposition_frames"
-                                 baseColumnNames="id_trait_verb_reflect"
+                                 baseColumnNames="id_verb_reflect_trait"
                                  referencedTableName="morphological_traits"
                                  referencedColumnNames="id_trait"
         />
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-trait-verb-voice-in-verb-preposition-frames">
+    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-verb-voice-trait-in-verb-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_trait_verb_voice_in_verb_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_verb_voice_trait_in_verb_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_trait_verb_voice_in_verb_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_verb_voice_trait_in_verb_preposition_frames"
                                  baseTableName="verb_preposition_frames"
-                                 baseColumnNames="id_trait_verb_voice"
+                                 baseColumnNames="verb_voice_trait"
                                  referencedTableName="morphological_traits"
                                  referencedColumnNames="id_trait"
         />
@@ -91,28 +91,28 @@
     <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-term-verb-preposition-in-verb-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_term_preposition_in_verb_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_preposition_term_in_verb_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_term_preposition_in_verb_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_preposition_term_in_verb_preposition_frames"
                                  baseTableName="verb_preposition_frames"
-                                 baseColumnNames="id_term_preposition"
+                                 baseColumnNames="id_preposition_term"
                                  referencedTableName="terms"
                                  referencedColumnNames="id_term"
         />
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-trait-verb-case-in-verb-preposition-frames">
+    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-noun-case-trait-in-verb-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_trait_verb_case_in_verb_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_noun_case_trait_in_verb_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_trait_verb_case_in_verb_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_noun_case_trait_in_verb_preposition_frames"
                                  baseTableName="verb_preposition_frames"
-                                 baseColumnNames="id_trait_case"
+                                 baseColumnNames="id_noun_case_trait"
                                  referencedTableName="morphological_traits"
                                  referencedColumnNames="id_trait"
         />
@@ -121,13 +121,13 @@
     <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-meaning-situation-in-verb-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_meaning_situation_in_verb_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_situation_meaning_in_verb_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_meaning_situation_in_verb_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_situation_meaning_in_verb_preposition_frames"
                                  baseTableName="verb_preposition_frames"
-                                 baseColumnNames="id_meaning_situation"
+                                 baseColumnNames="id_situation_meaning"
                                  referencedTableName="meanings"
                                  referencedColumnNames="id_meaning"
         />
@@ -148,53 +148,18 @@
         />
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-table-meaning-limits">
+    <changeSet author="vsurubkov" id="27-02-2024-add-foreign-key-sort-in-verb-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="meaning_limits"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_sort_in_verb_preposition_frames"/>
             </not>
         </preConditions>
 
-        <createTable tableName="meaning_limits">
-            <column name="id_limit" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="pk_meaning_limit"/>
-            </column>
-            <column name="id_frame" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="id_meaning_add" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-verb-preposition-frames-in-meaning-limits">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_verb_preposition_frames_in_meaning_limits"/>
-            </not>
-        </preConditions>
-
-        <addForeignKeyConstraint constraintName="fk_verb_preposition_frames_in_meaning_limits"
-                                 baseTableName="meaning_limits"
-                                 baseColumnNames="id_frame"
-                                 referencedTableName="verb_preposition_frames"
-                                 referencedColumnNames="id_frame"
-        />
-    </changeSet>
-
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-meaning-add-in-meaning-limits">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_meaning_add_in_meaning_limits"/>
-            </not>
-        </preConditions>
-
-        <addForeignKeyConstraint constraintName="fk_meaning_add_in_meaning_limits"
-                                 baseTableName="meaning_limits"
-                                 baseColumnNames="id_meaning_add"
-                                 referencedTableName="meanings"
-                                 referencedColumnNames="id_meaning"
+        <addForeignKeyConstraint constraintName="fk_sort_in_verb_preposition_frames"
+                                 baseTableName="verb_preposition_frames"
+                                 baseColumnNames="id_sort"
+                                 referencedTableName="sorts"
+                                 referencedColumnNames="id_sort"
         />
     </changeSet>
 </databaseChangeLog>

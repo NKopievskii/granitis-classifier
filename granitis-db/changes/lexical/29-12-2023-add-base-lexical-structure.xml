@@ -74,6 +74,24 @@
         />
     </changeSet>
 
+
+    <changeSet author="vsurubkov" id="29-12-2023-add-table-domains">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="domains"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="domains">
+            <column name="id_domain" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_domain"/>
+            </column>
+            <column name="domain" type="nvarchar(256)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet author="vsurubkov" id="29-12-2023-add-table-terms">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -89,6 +107,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="id_trait_subclass" type="bigint">
+            </column>
+            <column name="id_domain" type="bigint">
+                <constraints nullable="false"/>
             </column>
             <column name="comment" type="nvarchar(256)"/>
         </createTable>
@@ -121,6 +142,21 @@
                                  baseColumnNames="id_trait_subclass"
                                  referencedTableName="morphological_traits"
                                  referencedColumnNames="id_trait"
+        />
+    </changeSet>
+
+    <changeSet author="vsurubkov" id="27-02-2024-add-foreign-key-domain-in-terms">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_domain_in_terms"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint constraintName="fk_domain_in_terms"
+                                 baseTableName="terms"
+                                 baseColumnNames="id_domain"
+                                 referencedTableName="domains"
+                                 referencedColumnNames="id_domain"
         />
     </changeSet>
 

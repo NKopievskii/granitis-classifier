@@ -19,6 +19,7 @@
         <module>granitis-api</module>
         <module>granitis-db</module>
         <module>granitis-core</module>
+        <module>granitis-knowledge-representation</module>
     </modules>
 
     <properties>
@@ -28,7 +29,20 @@
         <checkstyle.xml.path>config/checkstyle/checkstyle.xml</checkstyle.xml.path>
 
         <springdoc.version>2.3.0</springdoc.version>
+
+        <mapstruct.version>1.6.0.Beta1</mapstruct.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
 
     <dependencies>
         <dependency>

@@ -28,8 +28,8 @@ public class MorphologicalTrait {
     @Column(name = "trait")
     private String trait;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_type")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "id_trait_type")
     private MorphologicalTraitType type;
 
 }

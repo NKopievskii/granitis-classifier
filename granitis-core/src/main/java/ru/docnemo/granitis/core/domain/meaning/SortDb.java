@@ -11,28 +11,26 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "term_add_meanings")
+@Table(name = "sorts")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TermAdditionalMeanings {
+@Builder
+public class SortDb {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_term_add_meaning")
-    private Long id;
+    @Column(name = "id_sort")
+    private Long idSort;
+
+    @Column(name = "sort")
+    private String sort;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_term_main_meaning")
-    private TermMainMeanings termMainMeanings;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_meaning_add")
-    private Meaning addtionalMeaning;
-
-    @Column(name = "comment")
-    private String comment;
+    @JoinColumn(name = "id_hyperonim")
+    private SortDb hyperonim;
 }

@@ -16,22 +16,22 @@
             <column name="id_frame" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_preposition_frame"/>
             </column>
-            <column name="id_term_preposition" type="bigint">
+            <column name="id_preposition_term" type="bigint">
+<!--                <constraints nullable="false"/>-->
+            </column>
+            <column name="id_noun_sort_1" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="id_meaning_add_noun_1" type="bigint">
+            <column name="id_noun_sort_2" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="id_meaning_add_noun_2" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="id_trait_case_2" type="bigint">
+            <column name="id_noun_case_trait_2" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="id_meaning_frame" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="Comment" type="nvarchar(256)">
+            <column name="comment" type="nvarchar(256)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -40,13 +40,13 @@
     <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-term-preposition-in-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_term_preposition_in_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_preposition_term_in_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_term_preposition_in_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_preposition_term_in_preposition_frames"
                                  baseTableName="preposition_frames"
-                                 baseColumnNames="id_term_preposition"
+                                 baseColumnNames="id_preposition_term"
                                  referencedTableName="terms"
                                  referencedColumnNames="id_term"
         />
@@ -55,45 +55,45 @@
     <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-trait-case-2-in-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_trait_case_2_in_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_noun_case_trait_2_in_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_trait_case_2_in_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_noun_case_trait_2_in_preposition_frames"
                                  baseTableName="preposition_frames"
-                                 baseColumnNames="id_trait_case_2"
+                                 baseColumnNames="id_noun_case_trait_2"
                                  referencedTableName="morphological_traits"
                                  referencedColumnNames="id_trait"
         />
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-meaning-add-noun-1-in-preposition-frames">
+    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-noun-sort-1-in-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_meaning_add_noun_1_in_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_noun_sort_1_in_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_meaning_add_noun_1_in_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_noun_sort_1_in_preposition_frames"
                                  baseTableName="preposition_frames"
-                                 baseColumnNames="id_meaning_add_noun_1"
-                                 referencedTableName="meanings"
-                                 referencedColumnNames="id_meaning"
+                                 baseColumnNames="id_noun_sort_1"
+                                 referencedTableName="sorts"
+                                 referencedColumnNames="id_sort"
         />
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-meaning-add-noun-2-in-preposition-frames">
+    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-noun_sort-2-in-preposition-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_meaning_add_noun_2_in_preposition_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_noun_sort_2_in_preposition_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_meaning_add_noun_2_in_preposition_frames"
+        <addForeignKeyConstraint constraintName="fk_noun_sort_2_in_preposition_frames"
                                  baseTableName="preposition_frames"
-                                 baseColumnNames="id_meaning_add_noun_2"
-                                 referencedTableName="meanings"
-                                 referencedColumnNames="id_meaning"
+                                 baseColumnNames="id_noun_sort_2"
+                                 referencedTableName="sorts"
+                                 referencedColumnNames="id_sort"
         />
     </changeSet>
 

@@ -16,16 +16,16 @@
             <column name="id_frame" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_question_role_frame"/>
             </column>
-            <column name="id_term_preposition" type="bigint">
+            <column name="id_preposition_term" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="id_term_pronoun_interrogative_relative_adverb" type="bigint">
+            <column name="id_term_question_word" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="id_meaning_frame" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="Comment" type="nvarchar(256)">
+            <column name="comment" type="nvarchar(256)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -34,28 +34,28 @@
     <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-term-preposition-in-question-role-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_term_preposition_in_question_role_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_preposition_term_in_question_role_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_term_preposition_in_question_role_frames"
+        <addForeignKeyConstraint constraintName="fk_preposition_term_in_question_role_frames"
                                  baseTableName="question_role_frames"
-                                 baseColumnNames="id_term_preposition"
+                                 baseColumnNames="id_preposition_term"
                                  referencedTableName="terms"
                                  referencedColumnNames="id_term"
         />
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-term-pronoun-interrogative-relative-adverb-in_question-role-frames">
+    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-term-question-word-in-question-role-frames">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_term_pronoun_interrogative_relative_adverb_in_question_role_frames"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_term_question_word_in_question_role_frames"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_term_pronoun_interrogative_relative_adverb_in_question_role_frames"
+        <addForeignKeyConstraint constraintName="fk_term_question_word_in_question_role_frames"
                                  baseTableName="question_role_frames"
-                                 baseColumnNames="id_term_pronoun_interrogative_relative_adverb"
+                                 baseColumnNames="id_term_question_word"
                                  referencedTableName="terms"
                                  referencedColumnNames="id_term"
         />

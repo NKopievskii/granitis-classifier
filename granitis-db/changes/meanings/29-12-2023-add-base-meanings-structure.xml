@@ -57,110 +57,140 @@
         />
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-table-term-main-meanings">
+    <changeSet author="vsurubkov" id="29-12-2023-add-table-sorts">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="term_main_meanings"/>
+                <tableExists tableName="sorts"/>
             </not>
         </preConditions>
 
-        <createTable tableName="term_main_meanings">
-            <column name="id_term_main_meaning" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="pk_term_main_meaning"/>
+        <createTable tableName="sorts">
+            <column name="id_sort" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_sort"/>
             </column>
-            <column name="id_term" type="bigint">
-                <constraints nullable="false"/>
+            <column name="id_hyperonim" type="bigint">
+                <constraints nullable="true"/>
             </column>
-            <column name="id_meaning_main" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="comment" type="nvarchar(256)">
+            <column name="sort" type="nvarchar(256)">
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-meaning-in-term-main-meanings">
+    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-sorts-in-sorts">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_meaning_in_term_main_meanings"/>
+                <foreignKeyConstraintExists foreignKeyName="fk_sorts_in_sorts"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_meaning_in_term_main_meanings"
-                                 baseTableName="term_main_meanings"
-                                 baseColumnNames="id_meaning_main"
+        <addForeignKeyConstraint constraintName="fk_sorts_in_sorts"
+                                 baseTableName="sorts"
+                                 baseColumnNames="id_hyperonim"
+                                 referencedTableName="sorts"
+                                 referencedColumnNames="id_sort"
+        />
+    </changeSet>
+
+
+
+    <changeSet author="vsurubkov" id="27-02-2024-add-table-meanings_sorts">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="meanings_sorts"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="meanings_sorts">
+            <column name="id_meaning" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_sort" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="vsurubkov" id="27-02-2024-add-foreign-key-sorts-in-meanings-sorts">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_sorts_in_meanings_sorts"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint constraintName="fk_sorts_in_meanings_sorts"
+                                 baseTableName="meanings_sorts"
+                                 baseColumnNames="id_sort"
+                                 referencedTableName="sorts"
+                                 referencedColumnNames="id_sort"
+        />
+    </changeSet>
+
+    <changeSet author="vsurubkov" id="27-02-2024-add-foreign-key-meaning-in-meanings-sorts">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_meaning_in_meanings_sorts"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint constraintName="fk_meaning_in_meanings_sorts"
+                                 baseTableName="meanings_sorts"
+                                 baseColumnNames="id_meaning"
                                  referencedTableName="meanings"
                                  referencedColumnNames="id_meaning"
         />
     </changeSet>
 
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-term-in-term-main-meanings">
+    <changeSet author="vsurubkov" id="29-12-2023-add-table-term-meanings">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_term_in_term_main_meanings"/>
+                <tableExists tableName="term_meanings"/>
             </not>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_term_in_term_main_meanings"
-                                 baseTableName="term_main_meanings"
+        <createTable tableName="term_meanings">
+            <column name="id_term_meaning" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_term_meaning"/>
+            </column>
+            <column name="id_term" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_meaning" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="nvarchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="vsurubkov" id="27-02-2024-add-foreign-key-meaning-in-term-meanings">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_meaning_in_term_meanings"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint constraintName="fk_meaning_in_term_meanings"
+                                 baseTableName="term_meanings"
+                                 baseColumnNames="id_meaning"
+                                 referencedTableName="meanings"
+                                 referencedColumnNames="id_meaning"
+        />
+    </changeSet>
+
+    <changeSet author="vsurubkov" id="27-02-2024-add-foreign-key-term-in-term-meanings">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_term_in_term_meanings"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint constraintName="fk_term_in_term_meanings"
+                                 baseTableName="term_meanings"
                                  baseColumnNames="id_term"
                                  referencedTableName="terms"
                                  referencedColumnNames="id_term"
         />
     </changeSet>
-
-    <changeSet author="vsurubkov" id="29-12-2023-add-table-term-add-meanings">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="term_add_meanings"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="term_add_meanings">
-            <column name="id_term_add_meaning" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="pk_term_add_meaning"/>
-            </column>
-            <column name="id_term_main_meaning" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="id_meaning_add" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="comment" type="nvarchar(256)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-meaning-in-term-add-meanings">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_meaning_in_term_add_meanings"/>
-            </not>
-        </preConditions>
-
-        <addForeignKeyConstraint constraintName="fk_meaning_in_term_add_meanings"
-                                 baseTableName="term_add_meanings"
-                                 baseColumnNames="id_meaning_add"
-                                 referencedTableName="meanings"
-                                 referencedColumnNames="id_meaning"
-        />
-    </changeSet>
-
-    <changeSet author="vsurubkov" id="29-12-2023-add-foreign-key-term-main-meaning-in-term-add-meanings">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_term_main_meaning_in_term_add_meanings"/>
-            </not>
-        </preConditions>
-
-        <addForeignKeyConstraint constraintName="fk_term_main_meaning_in_term_add_meanings"
-                                 baseTableName="term_add_meanings"
-                                 baseColumnNames="id_term_main_meaning"
-                                 referencedTableName="term_main_meanings"
-                                 referencedColumnNames="id_term_main_meaning"
-        />
-    </changeSet>
-
 </databaseChangeLog>

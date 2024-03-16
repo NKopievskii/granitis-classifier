@@ -6,7 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet author="vsurubkov" id="29-12-2023-add-data-v1">
-        <sqlFile path="changes/data/lbd_v1.sql"/>
+        <sqlFile path="changes/data/plbd_v2.sql"/>
     </changeSet>
 
 </databaseChangeLog>

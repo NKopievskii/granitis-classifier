@@ -14,47 +14,52 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.docnemo.granitis.core.domain.lexical.MorphologicalTrait;
-import ru.docnemo.granitis.core.domain.lexical.Term;
+import ru.docnemo.granitis.core.domain.lexical.TermDb;
 import ru.docnemo.granitis.core.domain.meaning.Meaning;
+import ru.docnemo.granitis.core.domain.meaning.SortDb;
 
 @Entity
 @Table(name = "verb_preposition_frames")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VerbPrepositionFrame {
+public class VerbPrepositionFrameDb {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_frame")
     private Long idFrame;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_meaning_situation")
+    @JoinColumn(name = "id_situation_meaning")
     private Meaning situationMeaning;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_trait_verb_form")
+    @JoinColumn(name = "id_verb_form_trait")
     private MorphologicalTrait verbForm;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_trait_verb_reflect")
+    @JoinColumn(name = "id_verb_reflect_trait")
     private MorphologicalTrait verbReflect;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_trait_verb_voice")
+    @JoinColumn(name = "verb_voice_trait")
     private MorphologicalTrait verbVoice;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_term_preposition")
-    private Term prepositionTerm;
+    @JoinColumn(name = "id_preposition_term")
+    private TermDb prepositionTermDb;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_trait_case")
+    @JoinColumn(name = "id_noun_case_trait")
     private MorphologicalTrait caseTrait;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "id_sort")
+    private SortDb sort;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_meaning_frame")
-    private Meaning meaningFrame;
+    private Meaning frameMeaning;
 
     @Column(name = "comment")
     private String comment;

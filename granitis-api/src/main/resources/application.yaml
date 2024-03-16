@@ -17,3 +17,7 @@ springdoc:
 spring:
   profiles:
     active: h2
+
+logging:
+  level:
+    ru.docnemo.granitis: DEBUG

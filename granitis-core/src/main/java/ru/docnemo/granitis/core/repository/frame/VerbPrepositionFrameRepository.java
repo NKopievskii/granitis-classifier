@@ -1,18 +1,18 @@
 package ru.docnemo.granitis.core.repository.frame;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.docnemo.granitis.core.domain.frame.VerbPrepositionFrame;
-import ru.docnemo.granitis.core.domain.lexical.MorphologicalTrait;
-import ru.docnemo.granitis.core.domain.lexical.Term;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import ru.docnemo.granitis.core.domain.frame.VerbPrepositionFrameDb;
 
-import java.util.Optional;
-
-public interface VerbPrepositionFrameRepository extends JpaRepository<VerbPrepositionFrame, Long> {
-    Optional<VerbPrepositionFrame> findByVerbFormAndVerbReflectAndVerbVoiceAndPrepositionTermAndCaseTrait(
-            MorphologicalTrait verbForm,
-            MorphologicalTrait verbReflect,
-            MorphologicalTrait verbVoice,
-            Term prepositionTerm,
-            MorphologicalTrait caseTrait
-    );
+public interface VerbPrepositionFrameRepository extends JpaRepository<VerbPrepositionFrameDb, Long>,
+        JpaSpecificationExecutor<VerbPrepositionFrameDb> {
+//    List<VerbPrepositionFrameDb> findAllBySituationMeaningMeaningAndVerbFormTraitAndVerbReflectTraitAndVerbVoiceTraitAndPrepositionTermDbLexemesLexemeContainsAndSortSortInAndCaseTraitTraitIn(
+//            String situationMeaning,
+//            String form,
+//            String reflection,
+//            String voice,
+//            String preposition,
+//            Set<String> sorts,
+//            Set<String> grammaticalCases
+//    );
 }
