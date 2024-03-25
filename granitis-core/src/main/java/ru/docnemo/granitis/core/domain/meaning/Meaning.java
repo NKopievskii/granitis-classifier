@@ -43,7 +43,4 @@ public class Meaning {
             inverseJoinColumns = @JoinColumn(name = "id_sort")
     )
     private List<SortDb> sorts;
-
-
-    // todo добавить сюда список сортов
 }

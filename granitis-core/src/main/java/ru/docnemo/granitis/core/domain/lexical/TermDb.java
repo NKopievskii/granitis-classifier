@@ -9,8 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -41,13 +41,8 @@ public class TermDb {
     @JoinColumn(name = "id_trait_subclass")
     private MorphologicalTrait subclass;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name = "term_components",
-            joinColumns = @JoinColumn(name = "id_term"),
-            inverseJoinColumns = @JoinColumn(name = "id_lexeme")
-    )
-    private List<Lexeme> lexemes;
+    @OneToMany(mappedBy = "term")
+    private List<TermComponent> components;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(

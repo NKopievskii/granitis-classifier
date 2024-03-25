@@ -2,6 +2,7 @@ package ru.docnemo.granitis.dictionary;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 import ru.docnemo.granitis.converter.VerbPrepositionFrameConverter;
 import ru.docnemo.granitis.core.domain.frame.VerbPrepositionFrameDb;
 import ru.docnemo.granitis.core.repository.frame.VerbPrepositionFrameRepository;
@@ -19,6 +20,7 @@ public class DefaultVerbPrepositionFrameDictionary implements VerbPrepositionFra
     private final VerbPrepositionFrameConverter verbPrepositionFrameConverter;
 
     @Override
+    @Transactional(readOnly = true)
     public List<VerbPrepositionFrame> find(String situationMeaning, String form, String reflection, String voice, String preposition, Set<String> sorts, Set<String> grammaticalCases) {
         Specification<VerbPrepositionFrameDb> specification = VerbPrepositionFrameSpecification.hasSituationMeaning(situationMeaning);
         if (Objects.nonNull(form)) {

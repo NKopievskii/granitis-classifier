@@ -1,7 +1,8 @@
 server:
   port: 8080
-  servlet:
-    context-path: /api
+#  port: ${PORT:8080}
+#  servlet:
+#    context-path: /api
 
 management:
   endpoints:
@@ -17,7 +18,14 @@ springdoc:
 spring:
   profiles:
     active: h2
+  mustache:
+    check-template-location: false
 
 logging:
   level:
     ru.docnemo.granitis: DEBUG
+    com.vaadin: DEBUG
+
+vaadin:
+  launch-browser: false
+

@@ -8,12 +8,9 @@ import java.util.Optional;
 
 public interface TermRepository extends JpaRepository<TermDb, Long> {
 
-    Optional<TermDb> findByLexemesLexemeEqualsIgnoreCase(String lexeme);
+    Optional<TermDb> findByComponentsLexemeLexemeEqualsIgnoreCase(String lexeme);
+    List<TermDb> findAllByComponentsLexemeLexemeInIgnoreCase(List<String> lexeme);
 
-    List<TermDb> findAllByLexemesLexemeEqualsIgnoreCase(String lexeme);
-    List<TermDb> findAllByLexemesLexemeInIgnoreCase(List<String> lexeme);
-
-    Optional<TermDb> findByPartOfSpeechTraitAndLexemesLexemeEquals(String subclass, String lexeme);
-    Optional<TermDb> findByLexemesLexemeContains(String lexeme);
-    Optional<TermDb> findByLexemesLexemeEquals(String lexeme);
+    Optional<TermDb> findByPartOfSpeechTraitAndComponentsLexemeLexemeEquals(String subclass, String lexeme);
+    Optional<TermDb> findByComponentsLexemeLexemeEquals(String lexeme);
 }

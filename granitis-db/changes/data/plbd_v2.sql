@@ -77,6 +77,8 @@ INSERT INTO "lexemes" ("id_lexeme", "lexeme") OVERRIDING SYSTEM VALUE VALUES (5,
 INSERT INTO "lexemes" ("id_lexeme", "lexeme") OVERRIDING SYSTEM VALUE VALUES (6, 'к');
 INSERT INTO "lexemes" ("id_lexeme", "lexeme") OVERRIDING SYSTEM VALUE VALUES (7, 'глотка');
 INSERT INTO "lexemes" ("id_lexeme", "lexeme") OVERRIDING SYSTEM VALUE VALUES (8, 'быть');
+INSERT INTO "lexemes" ("id_lexeme", "lexeme") OVERRIDING SYSTEM VALUE VALUES (9, 'евстахиев');
+INSERT INTO "lexemes" ("id_lexeme", "lexeme") OVERRIDING SYSTEM VALUE VALUES (10, 'труба');
 
 INSERT INTO "domains" ("id_domain", "domain") OVERRIDING SYSTEM VALUE VALUES (1, 'общий');
 
@@ -88,6 +90,7 @@ INSERT INTO "terms" ("id_term", "id_trait_part_of_speech", "id_trait_subclass", 
 INSERT INTO "terms" ("id_term", "id_trait_part_of_speech", "id_trait_subclass", "id_domain", "comment") OVERRIDING SYSTEM VALUE VALUES (6, 53, NULL, 1, 'к');
 INSERT INTO "terms" ("id_term", "id_trait_part_of_speech", "id_trait_subclass", "id_domain", "comment") OVERRIDING SYSTEM VALUE VALUES (7, 51, NULL, 1, 'глотка');
 INSERT INTO "terms" ("id_term", "id_trait_part_of_speech", "id_trait_subclass", "id_domain", "comment") OVERRIDING SYSTEM VALUE VALUES (8, 50, NULL, 1, 'быть');
+INSERT INTO "terms" ("id_term", "id_trait_part_of_speech", "id_trait_subclass", "id_domain", "comment") OVERRIDING SYSTEM VALUE VALUES (9, 51, NULL, 1, 'евстахиева труба');
 
 INSERT INTO "term_components" ("id_component", "id_term", "id_lexeme", "is_main_lexeme", "position_lexeme") OVERRIDING SYSTEM VALUE VALUES (1, 1, 1, true, 0);
 INSERT INTO "term_components" ("id_component", "id_term", "id_lexeme", "is_main_lexeme", "position_lexeme") OVERRIDING SYSTEM VALUE VALUES (2, 2, 2, true, 0);
@@ -97,6 +100,8 @@ INSERT INTO "term_components" ("id_component", "id_term", "id_lexeme", "is_main_
 INSERT INTO "term_components" ("id_component", "id_term", "id_lexeme", "is_main_lexeme", "position_lexeme") OVERRIDING SYSTEM VALUE VALUES (6, 6, 6, true, 0);
 INSERT INTO "term_components" ("id_component", "id_term", "id_lexeme", "is_main_lexeme", "position_lexeme") OVERRIDING SYSTEM VALUE VALUES (7, 7, 7, true, 0);
 INSERT INTO "term_components" ("id_component", "id_term", "id_lexeme", "is_main_lexeme", "position_lexeme") OVERRIDING SYSTEM VALUE VALUES (8, 8, 8, true, 0);
+INSERT INTO "term_components" ("id_component", "id_term", "id_lexeme", "is_main_lexeme", "position_lexeme") OVERRIDING SYSTEM VALUE VALUES (9, 9, 9, false, 0);
+INSERT INTO "term_components" ("id_component", "id_term", "id_lexeme", "is_main_lexeme", "position_lexeme") OVERRIDING SYSTEM VALUE VALUES (10, 9, 10, true, 1);
 
 INSERT INTO "meaning_types" ("id_type", "type") OVERRIDING SYSTEM VALUE VALUES (1, 'Основное значение лексемы');
 -- INSERT INTO "meaning_types" ("id_type", "type") OVERRIDING SYSTEM VALUE VALUES (2, 'Дополнительное значение лексемы');
@@ -110,10 +115,11 @@ INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VA
 INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (4, 1, 'орган*(Название, Ухо)(Чувство, Слух)');
 INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (5, 1, 'орган*(Название, Глотка)');
 INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (6, 3, 'Конец');
-INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (7, 4, 'Агент1');
+INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (7, 4, 'Объект1');
 INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (8, 1, 'Существование1');
 INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (9, 4, 'Определение1');
 INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (10, 4, 'Начало');
+INSERT INTO "meanings" ("id_meaning", "id_type", "meaning") OVERRIDING SYSTEM VALUE VALUES (11, 1, 'орган');
 
 INSERT INTO "sorts" ("id_sort", "id_hyperonim", "sort") OVERRIDING SYSTEM VALUE VALUES (1, NULL, 'пространственный объект');
 INSERT INTO "sorts" ("id_sort", "id_hyperonim", "sort") OVERRIDING SYSTEM VALUE VALUES (2, 1, 'физ.объект');
@@ -133,9 +139,11 @@ INSERT INTO "term_meanings" ("id_term_meaning", "id_term", "id_meaning", "commen
 INSERT INTO "term_meanings" ("id_term_meaning", "id_term", "id_meaning", "comment") OVERRIDING SYSTEM VALUE VALUES (4, 5, 4, 'ухо');
 INSERT INTO "term_meanings" ("id_term_meaning", "id_term", "id_meaning", "comment") OVERRIDING SYSTEM VALUE VALUES (5, 7, 5, 'глотка');
 INSERT INTO "term_meanings" ("id_term_meaning", "id_term", "id_meaning", "comment") OVERRIDING SYSTEM VALUE VALUES (6, 8, 9, 'быть');
+INSERT INTO "term_meanings" ("id_term_meaning", "id_term", "id_meaning", "comment") OVERRIDING SYSTEM VALUE VALUES (7, 9, 11, 'евстахиева труба');
 
-INSERT INTO "preposition_frames" ("id_frame", "id_preposition_term", "id_noun_sort_1", "id_noun_sort_2", "id_noun_case_trait_2", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (1, 6, 1, 1, 73, 6, 'к, простран об, простран об, дательный, Направление');
+-- INSERT INTO "preposition_frames" ("id_frame", "id_preposition_term", "id_noun_sort_1", "id_noun_sort_2", "id_noun_case_trait_2", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (1, 6, 1, 1, 73, 6, 'к, простран об, простран об, дательный, Направление');
 
-INSERT INTO "verb_preposition_frames" ("id_frame", "id_situation_meaning", "id_verb_form_trait", "id_verb_reflect_trait", "verb_voice_trait", "id_preposition_term", "id_noun_case_trait", "id_sort", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (1, 2, 110, 97, null, 3, 72, 1, 10, 'установление1, личн, нвз, #nil#, Агент1, #nil#, им, инт.с | дин.физ.объект');
-INSERT INTO "verb_preposition_frames" ("id_frame", "id_situation_meaning", "id_verb_form_trait", "id_verb_reflect_trait", "verb_voice_trait", "id_preposition_term", "id_noun_case_trait", "id_sort", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (2, 2, 110, 97, null, null, 71, 1, 7, 'канал');
-INSERT INTO "verb_preposition_frames" ("id_frame", "id_situation_meaning", "id_verb_form_trait", "id_verb_reflect_trait", "verb_voice_trait", "id_preposition_term", "id_noun_case_trait", "id_sort", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (3, 8, 110, 97, null, null, 71, 1, 9, 'быть');
+INSERT INTO "verb_preposition_frames" ("id_frame", "id_situation_meaning", "id_verb_form_trait", "id_verb_reflect_trait", "verb_voice_trait", "id_preposition_term", "id_noun_case_trait", "id_sort", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (1, 2, 110, 97, null, 3, 72, 1, 10, 'Направление1, личн, нвз, #nil#, к, рд, простр об');
+INSERT INTO "verb_preposition_frames" ("id_frame", "id_situation_meaning", "id_verb_form_trait", "id_verb_reflect_trait", "verb_voice_trait", "id_preposition_term", "id_noun_case_trait", "id_sort", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (2, 2, 110, 97, null, 6, 73, 1, 6, 'Направление1, личн, нвз, #nil#, от, дт, простр об');
+INSERT INTO "verb_preposition_frames" ("id_frame", "id_situation_meaning", "id_verb_form_trait", "id_verb_reflect_trait", "verb_voice_trait", "id_preposition_term", "id_noun_case_trait", "id_sort", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (3, 2, 110, 97, null, null, 71, 1, 7, 'канал');
+INSERT INTO "verb_preposition_frames" ("id_frame", "id_situation_meaning", "id_verb_form_trait", "id_verb_reflect_trait", "verb_voice_trait", "id_preposition_term", "id_noun_case_trait", "id_sort", "id_meaning_frame", "comment") OVERRIDING SYSTEM VALUE VALUES (4, 8, 110, 97, null, null, 71, 1, 9, 'быть');

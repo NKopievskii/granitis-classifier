@@ -102,8 +102,9 @@ public class SemBuilder {
                         yield "Case4";
                     }
 //                    if (numb1 == 0 && beg1 != "ref" && sem.isNotFunction()) { // не заню как делать проверку на не функцию
-                    if (numb1 == 0 && beg1 != "ref") { // sem1 не является обозначением функции из F(B(Cb)
-                        if (Objects.requireNonNullElse(matrix.get(index).getQuantity(), 0) == 1) { // todo надо разобраться что сюда надо-то, ноль или млжно null
+                    if (numb1 == 0 && !beg1.equals(ref)) { // sem1 не является обозначением функции из F(B(Cb)
+//                        if (Objects.requireNonNullElse(matrix.get(index).getQuantity(), 0) == 1) { // todo надо разобраться что сюда надо-то, ноль или млжно null
+                        if (grammaticAnalyzer.getGrammaticalProperties(matrix.get(index).getUnit()).getNumber().equals("ед")) { // todo надо разобраться что сюда надо-то, ноль или млжно null
                             yield "Case5";
                         } else {
                             yield "Case6";
@@ -149,13 +150,13 @@ public class SemBuilder {
     }
 
     void buildSemDes5(int k1, String sem1, String caseMark) { // работа с сущ нарицательными
-        if (matrix.get(k1).getAdjectivesNumber() > 0) {
+        if (Objects.nonNull(matrix.get(k1).getAdjectivesNumber()) && matrix.get(k1).getAdjectivesNumber() > 0) {
             sembase[k1] = sem1 + "*" + sembase[k1 - 1];
         } else {
             sembase[k1] = sem1;
         }
         String ref = "нек";
-        semdes[k1] = ref + sem1;
+        semdes[k1] = "%s %s".formatted(ref, sem1);
         String var = matrix.get(k1).getMark();
         performers[k1] = semdes[k1] + ":" + var;
     }
@@ -408,9 +409,9 @@ public class SemBuilder {
         String situations = "";
         for (int k = 0; k < sitDesCr.size(); k++) {
             String event = sitDesCr.get(k).getExpression();
-            if (conj.get(k) == 1) {
-                event = "(%s)".formatted(event);
-            }
+//            if (conj.get(k) == 1) {
+//                event = "(%s)".formatted(event);
+//            }
             if (k == 0) {
                 situations = event;
             } else {

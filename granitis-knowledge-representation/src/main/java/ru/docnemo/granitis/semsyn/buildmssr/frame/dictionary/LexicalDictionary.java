@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface LexicalDictionary {
     Term findTerm(String unit);
+    Term findTerm(List<String> unit);
     List<Term> findTerms(String unit);
 }

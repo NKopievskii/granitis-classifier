@@ -12,14 +12,18 @@
     <artifactId>granitis-api</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-web</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>ru.docnemo.granitis</groupId>
             <artifactId>granitis-db</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>ru.docnemo.granitis</groupId>
@@ -31,25 +35,21 @@
             <artifactId>jmorphy2-lucene</artifactId>
             <version>0.2.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.noggit</groupId>
             <artifactId>noggit</artifactId>
             <version>0.8</version>
         </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
         </dependency>
-
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.16.0</version>
         </dependency>
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -62,8 +62,11 @@
         <dependency>
             <groupId>ru.docnemo.granitis</groupId>
             <artifactId>granitis-knowledge-representation</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-core</artifactId>
         </dependency>
     </dependencies>
 
@@ -88,6 +91,18 @@
                     <finalName>${parent.artifactId}</finalName>
                     <mainClass>ru.docnemo.granitis.GranitisApplication</mainClass>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-frontend</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 <!--            <plugin>-->
 <!--                <groupId>org.apache.maven.plugins</groupId>-->

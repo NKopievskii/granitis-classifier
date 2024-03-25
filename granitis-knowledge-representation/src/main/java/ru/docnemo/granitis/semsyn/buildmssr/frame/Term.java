@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -14,6 +13,7 @@ public class Term {
     private String partOfSpeech;
     private String subClass;
     private String meaning;
-    private List<String> lexemes;
+    private String term;
+    private int lexemeNumber;
     private Set<String> sorts;
 }

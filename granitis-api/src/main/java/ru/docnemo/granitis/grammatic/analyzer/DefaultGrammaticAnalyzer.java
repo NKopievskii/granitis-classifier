@@ -6,6 +6,7 @@ import company.evo.jmorphy2.ParsedWord;
 import company.evo.jmorphy2.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import ru.docnemo.granitis.core.domain.lexical.TermDb;
 import ru.docnemo.granitis.core.repository.lexical.TermRepository;
 import ru.docnemo.granitis.semsyn.buildmssr.morph.GrammaticAnalyzer;
@@ -24,9 +25,9 @@ public class DefaultGrammaticAnalyzer implements GrammaticAnalyzer {
     private final MorphAnalyzer morphAnalyzer;
     private final TermRepository termRepository;
 
+    @Transactional(readOnly = true)
     public GrammaticalProperties getGrammaticalProperties(String word) {
         try {
-//            List<Tag> tags = morphAnalyzer.tag(word);
             List<ParsedWord> parsedWords = morphAnalyzer.parse(word);
             ParsedWord parsedWord1 = parsedWords
                     .stream()
@@ -38,8 +39,7 @@ public class DefaultGrammaticAnalyzer implements GrammaticAnalyzer {
 
             String baseForm = parsedWord1.normalForm;
             Tag tag1 = parsedWord1.tag;
-//            log.debug("tags {}, base forms {}", tags.size(), baseForm.size());
-//            List<GrammaticalTag> grammaticalTags = tags
+
             List<GrammaticalTag> grammaticalTags = Stream.of(tag1)
                     .map(
                             tag -> GrammaticalTag
@@ -79,16 +79,18 @@ public class DefaultGrammaticAnalyzer implements GrammaticAnalyzer {
         }
     }
 
+    @Transactional(readOnly = true)
     String getSubclass(String pos, String lexeme) {
-        Optional<TermDb> termDb = termRepository.findByPartOfSpeechTraitAndLexemesLexemeEquals(pos, lexeme);
+        Optional<TermDb> termDb = termRepository.findByPartOfSpeechTraitAndComponentsLexemeLexemeEquals(pos, lexeme);
         if (termDb.isPresent()) {
             return termDb.get().getSubclass().getTrait();
         }
         return "";
     }
 
+    @Transactional(readOnly = true)
     String getPos(String lexeme) {
-        Optional<TermDb> termDb = termRepository.findByLexemesLexemeEquals(lexeme);
+        Optional<TermDb> termDb = termRepository.findByComponentsLexemeLexemeEquals(lexeme);
         if (termDb.isPresent()) {
             return termDb.get().getPartOfSpeech().getTrait();
         }

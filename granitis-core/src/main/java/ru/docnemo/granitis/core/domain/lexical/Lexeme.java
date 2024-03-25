@@ -25,6 +25,4 @@ public class Lexeme {
 
     @Column(name = "lexeme")
     private String lexeme;
-
-    // todo надо позицию в тереме и признак основной лексемы
 }

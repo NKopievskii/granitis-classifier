@@ -43,7 +43,10 @@ public class VerbPrepositionFrameSpecification {
 
     public static Specification<VerbPrepositionFrameDb> hasPreposition(String preposition) {
         return (frame, query, builder) -> {
-            Join<VerbPrepositionFrameDb, Lexeme> join = frame.join("prepositionTermDb").join("lexemes");
+            Join<VerbPrepositionFrameDb, Lexeme> join = frame
+                    .join("prepositionTermDb")
+                    .join("components")
+                    .join("lexeme");
             return builder.equal(
                     join.get("lexeme"),
                     preposition

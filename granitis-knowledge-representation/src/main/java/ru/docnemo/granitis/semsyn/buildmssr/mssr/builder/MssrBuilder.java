@@ -60,7 +60,7 @@ public class MssrBuilder {
     public Mssr buildMssr(String[] text) {
         Meta meta = textTypeIdentifier.identifyTextType(text);
         mssr = initMssr(text, meta);
-        mssr.setMainPos(meta.getStartPosition()); // какая-та хрень, здесь должен быть mainPos
+        mssr.setMainPos(meta.getStartPosition());
         kindText = meta.getTextType();
         leftPreposition = meta.getLeftPreposition(); // мб можно все это убрать
 
@@ -74,7 +74,6 @@ public class MssrBuilder {
         situationNumber = 0;
 
         for (int i = meta.getStartPosition(); i < mssr.size(); i++) {
-//            switch (grammaticAnalyzer.getGrammaticalProperties(text[i]).getPartOfSpeech()) {
             log.debug(mssr.get(i).getUnit());
             switch (mssr.get(i).getTerms().getFirst().getPartOfSpeech()) {
                 // todo странная хрень, мб надо и не первый, мб надо фильтровать чтобы у всех был одинаковый
@@ -107,23 +106,45 @@ public class MssrBuilder {
     }
 
     Mssr initMssr(String[] text, Meta meta) {
-        List<MssrElement> matrix = Arrays
-                .stream(text)
-                .map(
-                        word -> MssrElement
-                                .builder()
-                                .unit(word)
-                                .terms(lexicalDictionary.findTerms(word))
-                                .controlRelations(new ArrayList<>())
-                                .build()
-                )
-                .toList();
+        List<MssrElement> matrix = new ArrayList<>();
+
+        for (int i = 0; i < text.length; i++) {
+            if (List.of(",", ".", ";", ":", "-").contains(text[i])) {
+                matrix.add(MssrElement.builder().unit(text[i]).build());
+                continue;
+            }
+
+            List<Term> terms = lexicalDictionary.findTerms(text[i]);
+            MssrElement element = MssrElement
+                    .builder()
+                    .unit(text[i])
+                    .terms(new ArrayList<>())
+                    .controlRelations(new ArrayList<>())
+                    .build();
+
+
+            Term maxTerm = terms.getFirst();
+            int maxSize = 0;
+            for (Term term : terms) {
+                if (
+                        term.getTerm().equals(
+                                String.join(" ", Arrays.stream(text).skip(i).limit(term.getLexemeNumber()).toList())
+                        )
+                        && maxSize < term.getLexemeNumber()
+                ) {
+                    maxTerm = term;
+                    maxSize = maxTerm.getLexemeNumber();
+                }
+            }
+
+            element.getTerms().add(maxTerm);
+            matrix.add(element);
+        }
         log.info("matrix {}", matrix);
         return Mssr.builder().textType(meta.getTextType()).matrix(matrix).build();
     }
 
     void processPrepositions(int p) {
-//        this.leftPreposition = text[p];
         this.leftPreposition = mssr.get(p).getUnit();
     }
 
@@ -141,7 +162,6 @@ public class MssrBuilder {
     }
 
     void processAdverb(int p) {
-//        if (getMorhPrisnak(text[p + 1]).getSubClass().equals("вопр-относ-местоим") && depth == 0) {
         if (
                 lexicalDictionary
                         .findTerm(
@@ -161,7 +181,6 @@ public class MssrBuilder {
         questionWordPositions.add(p);
         String word = mssr.get(p).getUnit();
 
-//        QuestionRoleFrame frame = getMorhPrisnak(word).getSubClass().equals("вопр-относ-местоим")
         QuestionRoleFrame frame = lexicalDictionary
                 .findTerm(word)
 
@@ -211,10 +230,7 @@ public class MssrBuilder {
                 depth += 1;
                 positionByDepth.add(depth, new DepthMeta());
             }
-//            verbposmag[depth] = 0;
-//            numbfreedep[depth] = 0;
-//            posfreedep[depth] = new Integer[4];
-//            positionByDepth.set(depth, DepthMeta.empty());
+
             positionByDepth.get(depth).getFreeUnitsPositions().clear();
             depth -= 1;
         }
@@ -243,7 +259,6 @@ public class MssrBuilder {
     }
 
     int findNoun(int p) {
-//        int verbPosition = verbposmag[depth - 1];
         Integer verbPosition = positionByDepth.get(depth - 1).getVerbPosition();
         for (int i = p; i >= 0; i--) {
             if (
@@ -262,24 +277,6 @@ public class MssrBuilder {
                                     verbPosition
                             )
                     )
-//                                       && (
-//                            Objects.equals(
-//                                    mssr
-//                                            .get(i)
-//                                            .getControlRelations()
-//                                            .get(controllingUnitNumber[i])
-//                                            .getPosition(),
-//                                    verbPosition
-//                            )
-//                                    || Objects.equals(
-//                                    mssr
-//                                            .get(i)
-//                                            .getControlRelations()
-//                                            .get(controllingUnitNumber[i])
-//                                            .getPosition(),
-//                                    0
-//                            )
-//            )
             ) {
                 return i;
             }
@@ -334,26 +331,18 @@ public class MssrBuilder {
     void processVerbFormParticiple(int p) {
         situationNumber++;
         mssr.get(p).setMark("e" + situationNumber);
-//        verbposmag[depth] = p;
         positionByDepth.get(depth).setVerbPosition(p);
 
         Term term = lexicalDictionary.findTerm(mssr.get(p).getUnit());
-//        if (getMorhPrisnak(text[p]).getTClass().equals("прич")) {
         if (term.getPartOfSpeech().equals("прич")) {
-//            if (!mssr.get(p - 1).getUnit().equals(",")) {
             depth++;
-            // todo надо как-то научиться управлять вложенность автоматически
+
             positionByDepth.add(depth, new DepthMeta());
             positionByDepth.get(depth).setVerbPosition(p);
 //            }
             int nounPosition = findNoun(p); // todo а если не найдено то что???
             if (nounPosition != -1) {
                 mssr.get(p).setControl(nounPosition);
-//            posVb = p;
-//            posdepword = nounPosition;
-
-//            String class1 = "сущ";
-//            String subclass = term.getSubClass();
                 controllingUnitNumber[nounPosition]++; // todo что это за срань, мб стоит его добавить в мссп
                 identifySemanticRelationVerbForm(nounPosition, p);
             }
@@ -371,7 +360,7 @@ public class MssrBuilder {
         } else {
             // todo сделтаь нормальный ексепшн
             throw new RuntimeException("Неопределенность глагольной формы или пустой массив отношений");
-//            chooseTematicRole();
+
         }
 
         // НАдо бы проверить, вообще для глагола это заполняется??????
@@ -386,10 +375,6 @@ public class MssrBuilder {
                                 relations.get(selectedRelationIndex).getRole()
                         )
                 );
-    }
-
-    private void chooseTematicRole() {
-        // Здесь взаимодейтсвие с пользователем, не реализуется в этой версии
     }
 
     private List<VerbNounRelation> findSetTematicRoles(Integer posdepword, Integer verbPosition) {
@@ -429,14 +414,13 @@ public class MssrBuilder {
 
     void processNoun(int p) {
         // прикрепление числительного
-        if (Objects.nonNull(leftNumber)) { // А если прямо число 0 будет указано "сделать 0 раз"
+        if (Objects.nonNull(leftNumber)) {
             mssr.get(p).setQuantity(leftNumber);
             leftNumber = null;
         }
         // прикрепеление прилагательных
         if (!adjectives.isEmpty()) {
             for (AdjectivePosition adj : adjectives) {
-//                mssr.get(adj.position).getControlRelations().add(1, new ControlRelation(p, adj.meaning));
                 mssr.get(adj.position).getControlRelations().add(new ControlRelation(p, adj.meaning));
             }
 
@@ -450,27 +434,23 @@ public class MssrBuilder {
         }
 
         // является ситуацией?
-//        Set<String> sorts = getSorts(text[p]);
         Set<String> sorts = lexicalDictionary.findTerm(mssr.get(p).getUnit()).getSorts();
-//        if (!sorts.getFirst().name().equals("ситуация")) {
         if (!sorts.contains("ситуация")) {
             entityNumber++;
         }
 
-//        int gramnumber = getMporphPrisnak(text[p]).getGramNumber();
         String gramnumber = grammaticAnalyzer.getGrammaticalProperties(mssr.get(p).getUnit()).getNumber();
 
         mssr.get(p).setMark(gramnumber.equals("ед") ? "x" + entityNumber : "S" + entityNumber);
 
         int leftNounPosition = findLeftNoun(p);
-        if (leftNounPosition == 0) { // вообще 0ой существует, нужен null
+        if (leftNounPosition == -1) { // вообще 0ой существует, нужен null
 //            if (positionByDepth.get(depth).getVerbPosition() == 0) {
             if (Objects.isNull(positionByDepth.get(depth).getVerbPosition())) {
                 positionByDepth.get(depth).getFreeUnitsPositions().add(p);
             } else {
                 Integer verbPosition = positionByDepth.get(depth).getVerbPosition();
                 identifySemanticRelationVerbForm(p, verbPosition);
-//                identifySemanticRelationVerbForm(posvb, p, mssr); todo так в алгоритме
             }
         } else { // leftNounPosition > 0
             List<TwoNounRelation> twoNounRelations = twoNounRelationFinder
@@ -482,30 +462,24 @@ public class MssrBuilder {
 
             if (twoNounRelations.isEmpty()) {
                 Integer verbPosition = positionByDepth.get(depth).getVerbPosition();
-//                if (verbPosition > 0) {
                 if (Objects.nonNull(verbPosition)) {
-                    identifySemanticRelationVerbForm(leftNounPosition, verbPosition);
+                    identifySemanticRelationVerbForm(p, verbPosition);
                 } else { // posVb == 0
                     positionByDepth.get(depth).getFreeUnitsPositions().add(p);
-//                    numbfreedep[depth]++;
-//                    posfreedep[depth][numbfreedep[depth]] = p;
                 }
             }
             if (!twoNounRelations.isEmpty()) {
                 Integer verbPosition = positionByDepth.get(depth).getVerbPosition();
                 if (Objects.nonNull(verbPosition)) {
-//                    List<VerbNounRelation> verbNounRelations = findSetTematicRoles(leftNounPosition, verbPosition);
                     List<VerbNounRelation> verbNounRelations = findSetTematicRoles(p, verbPosition);
                     if (verbNounRelations.isEmpty()) {
                         Integer selectedNounNounRelationIndex;
                         if (twoNounRelations.size() == 1) {
                             selectedNounNounRelationIndex = 0;
                         } else {
-//                            selectedNounNounRelationIndex = chooseRelBetweenNoun1Noun2();
 //                          todo нормальный эксепшн
                             throw new RuntimeException("Не однозначность отношений между существительными");
                         }
-//                        добаить инфу в mssr ??????????????????
                         mssr
                                 .get(p)
                                 .getControlRelations()
@@ -515,13 +489,6 @@ public class MssrBuilder {
                                                 twoNounRelations.get(selectedNounNounRelationIndex).getRelation()
                                         )
                                 );
-//                                .set(
-//                                        1,
-//                                        new ControlRelation(
-//                                                leftNounPosition,
-//                                                twoNounRelations.get(selectedNounNounRelationIndex).getRelation()
-//                                        )
-//                                );
                     } else { // (!verbNounRelations.isEmpty())// всеь блок определяется пользователем
                         if (!twoNounRelations.isEmpty()) {
                             int selectedTypeControl = chooseControlVerbNoun();
@@ -553,14 +520,10 @@ public class MssrBuilder {
                                 if (twoNounRelations.size() == 1) {
                                     selectedNounNounRelationIndex = 1;
                                 } else {
-
-//                            selectedNounNounRelationIndex = chooseRelBetweenNoun1Noun2(twoNounRelations);
 // todo нормальный эксепшн
                                     throw new RuntimeException("Не однозначность отношений между существительными");
 
                                 }
-//                                Matr[posleftnoun, locunit] := arreln1n2 [m2, locn1]; Matr[posleftnoun, nval] :=1;
-//                                Matr[pos, locunit] := arreln1n2 [m2, locn2]; Matr[pos, nval] := 1
                                 mssr
                                         .get(p)
                                         .getControlRelations()
@@ -629,6 +592,6 @@ public class MssrBuilder {
                 return 0;
             }
         }
-        return 0;
+        return -1;
     }
 }

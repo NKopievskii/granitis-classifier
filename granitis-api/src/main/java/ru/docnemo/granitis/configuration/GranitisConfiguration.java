@@ -10,7 +10,7 @@ import ru.docnemo.granitis.converter.QuestionRoleFrameConverter;
 import ru.docnemo.granitis.converter.TermConverter;
 import ru.docnemo.granitis.converter.VerbPrepositionFrameConverter;
 import ru.docnemo.granitis.core.repository.frame.PrepositionFrameRepository;
-import ru.docnemo.granitis.core.repository.frame.QuestionRoleFramesRepository;
+import ru.docnemo.granitis.core.repository.frame.QuestionRoleFrameRepository;
 import ru.docnemo.granitis.core.repository.frame.VerbPrepositionFrameRepository;
 import ru.docnemo.granitis.core.repository.lexical.SortRepository;
 import ru.docnemo.granitis.core.repository.lexical.TermRepository;
@@ -59,10 +59,10 @@ public class GranitisConfiguration {
 
     @Bean
     public QuestionRoleFrameDictionary questionRoleFrameDictionary(
-            QuestionRoleFramesRepository questionRoleFramesRepository
+            QuestionRoleFrameRepository questionRoleFrameRepository
     ) {
         return new DefaultQuestionRoleFrameDictionary(
-                questionRoleFramesRepository,
+                questionRoleFrameRepository,
                 new QuestionRoleFrameConverter()
         );
     }

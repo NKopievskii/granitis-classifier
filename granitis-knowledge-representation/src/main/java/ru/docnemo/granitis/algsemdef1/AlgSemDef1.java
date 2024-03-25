@@ -85,26 +85,39 @@ public class AlgSemDef1 {
         }
     }
 
+    int findDash(String[] text) {
+        for (int i = 0; i < text.length; i++) {
+            if (text[i].equals("-")) {
+                return i;
+            }
+        }
+        throw new RuntimeException("В тексте нет тире");
+    }
+
     void findVerbalForms(
             String[] defText,
             String domain
     ) {
+        int dashIndex = findDash(defText);
+
+
 //        String focusMap = semMap(lcs(defText[0]), domain);
-//        focusSem = lexicalDictionary
-//                .findTerm(defText[0]) // Здесь надо бы учитывать domain
-//                .getMeaning();
-        focusSem = "Труба";
+        // Здесь надо бы учитывать domain
+        focusSem = lexicalDictionary
+                .findTerm(Arrays.stream(defText).limit(dashIndex).toList())
+                .getMeaning();
+//        focusSem = "Труба";
 
 //        String semBase = semMap(lcs(defText[2]), domain);
         semBase = lexicalDictionary
-                .findTerm(defText[2])
+                .findTerm(defText[dashIndex + 1])
                 .getMeaning();
 
-        wordBase = defText[2];
+        wordBase = defText[dashIndex + 1];
 
 //        int pvb = p; // найти ближайщую глагольную форму справа
         int pvb = -1;
-        for (int i = 2; i < defText.length; i++) {
+        for (int i = dashIndex + 1; i < defText.length; i++) {
             if (defText[i].equals(",")) {
                 continue;
             }
@@ -167,9 +180,9 @@ public class AlgSemDef1 {
     }
 
     public String getSemRepresentation(String[] text, String domain) {
-        if (text[1].equals("-")) {
-            text[1] = "есть";
-        }
+//        if (text[1].equals("-")) {
+//            text[1] = "есть";
+//        }
 
         firstStage(text, domain);
         renameVariables();
